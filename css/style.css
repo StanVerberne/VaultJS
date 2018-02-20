@@ -1,0 +1,108 @@
+body {
+    background-image: url("../images/ict-background.jpg");
+    background-size: cover;
+}
+
+.container {
+    margin: 130px auto 0 auto;
+    width: 80%;
+    align-items: center;
+}
+
+.p-30 {
+   width: 30%;
+}
+
+#main-container {
+  width: 450px;
+  height: 375px;
+  background: blue;
+  padding: 17px;
+  border-radius: 10px;
+  position: relative;
+  margin: 0 auto;
+  top: 40px;
+}
+
+.vaultContainer {
+    width: 400px;
+    height: 325px;
+    background: white;
+    padding: 17px;
+    border-radius: 10px;
+    position: absolute;
+    margin-top: -120px;
+    margin-left: -150px;
+}
+
+
+
+
+
+
+
+
+.clearfix {
+    clear: both;
+}
+
+.entered-code {
+    color: blue;
+    text-align: center;
+    font-size: 60px;
+    font-family: rockwell;
+    margin: 10px auto;
+    background: black;
+    width: 400px;
+    height: 80px;
+    border-radius: 10px;
+}
+
+.buttons-hack {
+    width: 100%;
+}
+
+
+
+.vault-buttons > button {
+  background: #0066ff;
+  cursor: pointer;
+  color: white;
+  font-family: rockwell;
+  width: 121px;
+  height: 70px;
+  border: white 1px solid;
+  margin: 3px;
+  border-radius: 10px;
+  font-size: 40px;
+
+}
+
+.vault-buttons > button:hover{
+  background: #0066ff;
+  cursor: pointer;
+  color: white;
+  font-family: rockwell;
+  width: 121px;
+  height: 70px;
+  border: white 1px solid;
+  margin: 3px;
+  border-radius: 10px;
+  font-size: 40px;
+  transform: scale(1.1);
+  background-color: blue;
+}
+
+.vault-notif {
+    color: blue;
+    font-family: rockwell;
+    text-align: center;
+    font-size: 20px;
+}
+
+@font-face {
+  font-family: 'anudrg';
+  src: url('../fonts/anudrg-webfont.woff2') format('woff2'), url('../fonts/anudrg-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
