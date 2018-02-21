@@ -37,6 +37,7 @@ function Vault(code, elem_id) {
         if(!isSafe) return null;
         _(elem_id).innerHTML += `
             <div class="vaultContainer">
+
             <div id="${elem_id}-green-light" class="light green"></div>
                         <div id="${elem_id}-red-light" class="light red"></div>
                 <div class="clearfix"></div>
@@ -52,7 +53,7 @@ function Vault(code, elem_id) {
                     <p id="${elem_id}-stats" class="vault-notif">Times correct: 0 &middot; Times incorrect: 0</p>
                 </div>
             </div>
-        `;
+        </div>`;
     };
 
     /**
@@ -70,23 +71,45 @@ function Vault(code, elem_id) {
          _(elem_id + "-enteredCode").innerHTML = (enteredCode.join("") + ("-".repeat(code.length)) ).substring(0, 3);
          if(enteredCode.length === 3) {
              isSafe = false;
+
+
+
+
+
+
+
              // noinspection EqualityComparisonWithCoercionJS
              let flag = enteredCode[0] == correctCode[1] && enteredCode[1] == correctCode[1] && enteredCode[2] == correctCode[1];
              if(flag) {
+                              player.pause();
+                              player.src = "audio/correct.wav";
+                              player.play();
                               blink("#" + elem_id + "-green-light", 9, 200);
                               _(elem_id + "-notif").innerHTML = "Code is correct";
-                              countCorrect++;
 
+
+
+                              countCorrect++;
                           }
                           else {
+                              player.pause();
+                              player.src = "audio/fail.mp3";
+                              player.play();
                               blink("#" + elem_id + "-red-light", 9, 200);
                               _(elem_id + "-notif").innerHTML = "Code is incorrect";
+
+
+
                               countWrong++;
                           }
 
              _(elem_id + "-stats").innerHTML = `Times correct: ${countCorrect} &middot; Times incorrect: ${countWrong}`;
              setTimeout(() => {
                  isSafe = true;
+
+
+
+
                  _(elem_id + "-enteredCode").innerHTML = "-".repeat(code.length);
                  _(elem_id + "-notif").innerHTML = "&nbsp;";
              }, 3600);
@@ -113,6 +136,7 @@ function Vault(code, elem_id) {
      if (times > 0 || times < 0) {
          if ($(elem).hasClass("blink")) $(elem).removeClass("blink");
          else $(elem).addClass("blink");
+
      }
 
      clearTimeout(() => {
@@ -126,6 +150,7 @@ function Vault(code, elem_id) {
          times -= .5;
      }
  }
+
 
 /**
  * This is a shortcut for {@link Document Document}#getElementById
