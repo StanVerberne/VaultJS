@@ -19,7 +19,7 @@ function Vault(code, elem_id) {
      */
       this.testCode = function () {
         if(typeof code !== "object" || (code.length > 3 || code.length < 3) ) {
-            alert("Code is not an array or has les then 3 numbers");
+            alert("Code is not an array or has less then 3 numbers");
             isSafe = false;
         }
         else {
@@ -37,10 +37,8 @@ function Vault(code, elem_id) {
         if(!isSafe) return null;
         _(elem_id).innerHTML += `
             <div class="vaultContainer">
-
-
-
-
+            <div id="${elem_id}-green-light" class="light green"></div>
+                        <div id="${elem_id}-red-light" class="light red"></div>
                 <div class="clearfix"></div>
 
                 <h3 id="${elem_id}-enteredCode" class="entered-code">${"-".repeat(code.length)}</h3>
@@ -73,14 +71,18 @@ function Vault(code, elem_id) {
          if(enteredCode.length === 3) {
              isSafe = false;
              // noinspection EqualityComparisonWithCoercionJS
-             let flag = enteredCode[0] == correctCode[1] && enteredCode[1] == correctCode[2] && enteredCode[2] == correctCode[0];
+             let flag = enteredCode[0] == correctCode[1] && enteredCode[1] == correctCode[1] && enteredCode[2] == correctCode[1];
+             if(flag) {
+                              blink("#" + elem_id + "-green-light", 9, 200);
+                              _(elem_id + "-notif").innerHTML = "Code is correct";
+                              countCorrect++;
 
-
-
-
-
-
-
+                          }
+                          else {
+                              blink("#" + elem_id + "-red-light", 9, 200);
+                              _(elem_id + "-notif").innerHTML = "Code is incorrect";
+                              countWrong++;
+                          }
 
              _(elem_id + "-stats").innerHTML = `Times correct: ${countCorrect} &middot; Times incorrect: ${countWrong}`;
              setTimeout(() => {
@@ -107,18 +109,23 @@ function Vault(code, elem_id) {
  * @param speed the speed that you want to have the flash do it's thing in ms
  */
 
+ function blink(elem, times, speed) {
+     if (times > 0 || times < 0) {
+         if ($(elem).hasClass("blink")) $(elem).removeClass("blink");
+         else $(elem).addClass("blink");
+     }
 
+     clearTimeout(() => {
+         blink(elem, times, speed);
+     });
 
-
-
-
-
-
-
-
-
-
-
+     if (times > 0 || times < 0) {
+         setTimeout(() => {
+             blink(elem, times, speed);
+         }, speed);
+         times -= .5;
+     }
+ }
 
 /**
  * This is a shortcut for {@link Document Document}#getElementById
