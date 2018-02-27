@@ -6,36 +6,35 @@
  */
 function Vault(code, elem_id) {
 
-    let isSafe = false,
-        correctCode = code,
-        allButtons = $(".buttons>button"),
-        enteredCode = [],
-        countCorrect = 0,
-        countWrong = 0;
-    const player = new Audio();
+  let isSafe = false,
+    correctCode = code,
+    allButtons = $(".buttons>button"),
+    enteredCode = [],
+    countCorrect = 0,
+    countWrong = 0;
+  const player = new Audio();
 
-    /**
-     * This tests the code
-     */
-      this.testCode = function () {
-        if(typeof code !== "object" || (code.length > 3 || code.length < 3) ) {
-            alert("Code is not an array or has less then 3 numbers");
-            isSafe = false;
-        }
-        else {
-            isSafe = true;
-        }
-    };
+  /**
+   * This tests the code
+   */
+  this.testCode = function() {
+    if (typeof code !== "object" || (code.length > 3 || code.length < 3)) {
+      alert("Code is not an array or has less then 3 numbers");
+      isSafe = false;
+    } else {
+      isSafe = true;
+    }
+  };
 
 
-    /**
-     * This creates the vault
-     * @returns {null}
-     */
-    this.init = function () {
-        this.testCode();
-        if(!isSafe) return null;
-        _(elem_id).innerHTML += `
+  /**
+   * This creates the vault
+   * @returns {null}
+   */
+  this.init = function() {
+    this.testCode();
+    if (!isSafe) return null;
+    _(elem_id).innerHTML += `
             <div class="vaultContainer">
 
             <div id="${elem_id}-green-light" class="light green"></div>
@@ -54,73 +53,65 @@ function Vault(code, elem_id) {
                 </div>
             </div>
         </div>`;
-    };
+  };
 
-    /**
-     * this checks if the code is correct and what number you pressed
-     * @param button the button that is being pressed
-     * @returns {null}
-     */
-     this.buttonPress = function (button) {
-         if(!isSafe) return null;
-         for(let btn of allButtons) {
-             btn.disabled = true;
-         }
-         let num = button.value;
-         enteredCode.push(num);
-         _(elem_id + "-enteredCode").innerHTML = (enteredCode.join("") + ("-".repeat(code.length)) ).substring(0, 3);
-         if(enteredCode.length === 3) {
-             isSafe = false;
+  /**
+   * this checks if the code is correct and what number you pressed
+   * @param button the button that is being pressed
+   * @returns {null}
+   */
+  this.buttonPress = function(button) {
+    if (!isSafe) return null;
+    for (let btn of allButtons) {
+      btn.disabled = true;
+    }
+    let num = button.value;
+    enteredCode.push(num);
+    _(elem_id + "-enteredCode").innerHTML = (enteredCode.join("") + ("-".repeat(code.length))).substring(0, 3);
+    if (enteredCode.length === 3) {
+      isSafe = false;
+      $(".bounce1").show();
+      $(".bounce2").hide()
 
+      // noinspection EqualityComparisonWithCoercionJS
+      let flag = enteredCode[0] == correctCode[1] && enteredCode[1] == correctCode[1] && enteredCode[2] == correctCode[1];
+      if (flag) {
+        player.pause();
+        player.src = "audio/correct.wav";
+        player.play();
+        blink("#" + elem_id + "-green-light", 9, 200);
+        _(elem_id + "-notif").innerHTML = "Code is correct";
+        $(".bounce1").show();
+        $(".bounce2").hide();
+        countCorrect++;
+      }
+      else {
+        player.pause();
+        player.src = "audio/fail.mp3";
+        player.play();
+        blink("#" + elem_id + "-red-light", 9, 200);
+        _(elem_id + "-notif").innerHTML = "Code is incorrect";
+        $(".bounce2").show();
+        $(".bounce1").hide();
+        countWrong++;
+      }
 
-
-
-
-
-
-             // noinspection EqualityComparisonWithCoercionJS
-             let flag = enteredCode[0] == correctCode[1] && enteredCode[1] == correctCode[1] && enteredCode[2] == correctCode[1];
-             if(flag) {
-                              player.pause();
-                              player.src = "audio/correct.wav";
-                              player.play();
-                              blink("#" + elem_id + "-green-light", 9, 200);
-                              _(elem_id + "-notif").innerHTML = "Code is correct";
-
-
-
-                              countCorrect++;
-                          }
-                          else {
-                              player.pause();
-                              player.src = "audio/fail.mp3";
-                              player.play();
-                              blink("#" + elem_id + "-red-light", 9, 200);
-                              _(elem_id + "-notif").innerHTML = "Code is incorrect";
-
-
-
-                              countWrong++;
-                          }
-
-             _(elem_id + "-stats").innerHTML = `Times correct: ${countCorrect} &middot; Times incorrect: ${countWrong}`;
-             setTimeout(() => {
-                 isSafe = true;
-
-
-
-
-                 _(elem_id + "-enteredCode").innerHTML = "-".repeat(code.length);
-                 _(elem_id + "-notif").innerHTML = "&nbsp;";
-             }, 3600);
-             enteredCode.splice(0, enteredCode.length);
-         }
+      _(elem_id + "-stats").innerHTML = `Times correct: ${countCorrect} &middot; Times incorrect: ${countWrong}`;
+      setTimeout(() => {
+        isSafe = true;
+        $(".bounce2").hide();
+        $(".bounce1").hide();
+        _(elem_id + "-enteredCode").innerHTML = "-".repeat(code.length);
+        _(elem_id + "-notif").innerHTML = "&nbsp;";
+      }, 3600);
+      enteredCode.splice(0, enteredCode.length);
+    }
 
 
-        for(let btn of allButtons) {
-            btn.disabled = false;
-        }
-    };
+    for (let btn of allButtons) {
+      btn.disabled = false;
+    }
+  };
 
 }
 
@@ -132,24 +123,23 @@ function Vault(code, elem_id) {
  * @param speed the speed that you want to have the flash do it's thing in ms
  */
 
- function blink(elem, times, speed) {
-     if (times > 0 || times < 0) {
-         if ($(elem).hasClass("blink")) $(elem).removeClass("blink");
-         else $(elem).addClass("blink");
+function blink(elem, times, speed) {
+  if (times > 0 || times < 0) {
+    if ($(elem).hasClass("blink")) $(elem).removeClass("blink");
+    else $(elem).addClass("blink");
+  }
 
-     }
+  clearTimeout(() => {
+    blink(elem, times, speed);
+  });
 
-     clearTimeout(() => {
-         blink(elem, times, speed);
-     });
-
-     if (times > 0 || times < 0) {
-         setTimeout(() => {
-             blink(elem, times, speed);
-         }, speed);
-         times -= .5;
-     }
- }
+  if (times > 0 || times < 0) {
+    setTimeout(() => {
+      blink(elem, times, speed);
+    }, speed);
+    times -= .5;
+  }
+}
 
 
 /**
@@ -158,4 +148,6 @@ function Vault(code, elem_id) {
  * @returns {HTMLElement | null} the element with the matching id
  * @private Soooo, this doc comment was auto generated and I have no idea what to put here lol
  */
-function _(id) { return document.getElementById(id); }
+function _(id) {
+  return document.getElementById(id);
+}

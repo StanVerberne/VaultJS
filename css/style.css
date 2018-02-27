@@ -144,6 +144,7 @@ bounce : .text {
   font-size: 1.0em;
   font-family: sans-serif;
   text-transform: uppercase;
+  margin: 0 auto;
 }
 
 .animated {
@@ -160,9 +161,9 @@ bounce : .text {
 .bounce1 {
   animation-name: bounce;
   position: relative;
-  top: 200px;
+  top: 180px;
   float: left;
-  left: 140px;
+  left: 200px;
   font-family: anudrg;
   margin: 0 auto;
   text-align: center;
@@ -178,4 +179,8 @@ bounce : .text {
   font-family: anudrg;
   margin: 0 auto;
   text-align: center;
+}
+
+.text animated bounce1 {
+  margin: 0 auto;
 }
